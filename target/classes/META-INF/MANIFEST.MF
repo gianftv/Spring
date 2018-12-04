@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: springboot-sopra-jpa
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Arranque 4
+Implementation-Vendor-Id: es.sopra.curso
+Build-Jdk: 1.8.0_191
+Implementation-URL: http://projects.spring.io/spring-boot/springboot-s
+ opra-jpa/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
