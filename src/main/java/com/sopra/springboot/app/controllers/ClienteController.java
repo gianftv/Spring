@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sopra.springboot.app.model.service.IClienteService;
 import com.sopra.springboot.app.models.dao.IClienteDao;
@@ -43,13 +44,17 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/form/{id}")
-	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model) {
+	public String editar(@PathVariable(value = "id") Long id, RedirectAttributes flash,  Map<String, Object> model) {
 
 		Cliente cliente = null;
 		if (id > 0) {
 			cliente = clienteService.findOne(id);
-
+			if(cliente==null) {
+				flash.addFlashAttribute("error","El ID deñ Cliente no esta en la BBDD");
+				return "redirect/listar";
+			}
 		} else {
+			flash.addFlashAttribute("error","el ID del Cliente no pueden ser 0!");
 			return "redirect:/listar";
 		}
 		model.put("cliente", cliente);
@@ -58,7 +63,7 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash,SessionStatus status) {
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario del Cliente");// para que no vaya el titulo al forzar los errores
 			return "form";
@@ -66,13 +71,15 @@ public class ClienteController {
 
 		clienteService.save(cliente);
 		status.setComplete();
+		flash.addFlashAttribute("success","Cliente creado con éxito");
 		return "redirect:/listar";
 	}
 
 	@RequestMapping(value="/eliminar/{id}")
-	public String eliminar(@PathVariable(value="id") Long id) {
+	public String eliminar(@PathVariable(value="id") Long id, RedirectAttributes flash) {
 		if(id>0) {
 			clienteService.delete(id);
+			flash.addFlashAttribute("success","Cliente eliminado con éxito");
 		}
 		return "redirect:/listar";
 		
