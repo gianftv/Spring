@@ -1,10 +1,10 @@
-package com.sopra.springboot.app.models.dao;
+package com.sopra.springboot.app.model.service;
 
 import java.util.List;
 
 import com.sopra.springboot.app.models.entity.Cliente;
 
-public interface IClienteDao {
+public interface IClienteService {
 	
 	public List<Cliente> findAll();
 
@@ -13,4 +13,5 @@ public interface IClienteDao {
 	public Cliente findOne(Long id);
 	
 	public void delete(Long id);
+
 }
