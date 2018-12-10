@@ -1,5 +1,10 @@
 package com.sopra.springboot.app.controllers;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -11,12 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sopra.springboot.app.model.service.IClienteService;
@@ -30,6 +37,23 @@ public class ClienteController {
 
 	@Autowired
 	private IClienteService clienteService;
+	
+	@GetMapping(value="/ver/{id}")//casi lo mismo que request
+	public 	String ver(@PathVariable (value="id") Long id, Map<String, Object> model, RedirectAttributes flash){
+		
+		Cliente cliente = clienteService.findOne(id);
+		if(cliente==null) {
+			flash.addFlashAttribute("error", "El cliente no existe en la BBDD");
+			return "redirect:/listar";
+		}
+		
+		model.put("cliente",cliente);
+		model.put("titulo", "Detalle cliente :" + cliente.getNombre());
+		
+		return "ver";
+		
+		
+	}
 
 	@RequestMapping(value = "/listar", method = RequestMethod.GET) // en barra/ para que la aplicacion arranque en el listado
 	public String listar(@RequestParam(name="page", defaultValue="0") int page, Model model) {
@@ -76,15 +100,34 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash,SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, BindingResult result,  Model model, @RequestParam("file")MultipartFile foto,RedirectAttributes flash,SessionStatus status) {
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario del Cliente");// para que no vaya el titulo al forzar los errores
 			return "form";
 		}
+		
+		if(!foto.isEmpty()) {
+			Path directorioRecursos = Paths.get("src/main/resources/static/uploads");
+			String rootPath = directorioRecursos.toFile().getAbsolutePath();
+			try {
+				byte[] bytes= foto.getBytes();
+				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+				Files.write(rutaCompleta, bytes);
+				flash.addFlashAttribute("info", "Ha subido correctamente '" + foto.getOriginalFilename()+ "'");
+				
+				cliente.setFoto(foto.getOriginalFilename());
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		String mensajeFlash = (cliente.getId() !=null)? "Cliente editado con éxito" : "Cliente creado con éxicto";
 
 		clienteService.save(cliente);
 		status.setComplete();
-		flash.addFlashAttribute("success","Cliente creado/editado con éxito");
+		flash.addFlashAttribute("success",mensajeFlash);
 		return "redirect:/listar";
 	}
 

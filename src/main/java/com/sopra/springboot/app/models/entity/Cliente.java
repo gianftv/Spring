@@ -42,6 +42,8 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="dd-MM-yy")
 	private Date createAt;
+	
+	private String foto;
 	//en sopra
 	
 //	@PrePersist//antes de la persistencia hace un new date
@@ -95,5 +97,14 @@ public class Cliente implements Serializable {
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	
 	
 }
