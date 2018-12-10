@@ -8,8 +8,12 @@
 	<header th:replace="layout/layout ::header"></header>
 
 	<div class="container">
-		<h1 th:text="${titulo}"
-			class="text-secondary border border-success border-top-0 border-left-0 border-right-0"></h1>
+		<div class="card bg-dark text-white">
+		<div class="card-header" th:text="${titulo}"></div> 
+		<div class="card-body">
+			
+			
+			
 
 		<div th:object="${cliente}" th:remove="tag">
 			<ul th:if="${#fields.hasErrors('*')}" class=" alert alert-danger"
@@ -97,6 +101,9 @@
 			<!-- 			<input type="hidden" th:field="*{id}" /> -->
 		</form>
 	</div>
+	</div>
+	</div>
+	
 	<footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
