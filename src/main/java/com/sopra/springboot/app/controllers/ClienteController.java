@@ -146,7 +146,12 @@ public class ClienteController {
 				
 				String uniqueFilename = null;
 				
-				uniqueFilename = uploadService.copy(foto);
+				try {
+					uniqueFilename = uploadService.copy(foto);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				
 						
