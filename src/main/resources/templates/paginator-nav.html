@@ -16,7 +16,7 @@
 			
 			
 			
-			<li th:each="item : ${page.paginas}" class="page-item" th:class="${item.actual? 'page-item disabled' : 'page-item'}">
+			<li th:each="item : ${page.paginas}" class="page-item" th:class="${item.actual? 'page-item active ' : 'page-item'}">
 			<span th:if="${item.actual}" th:text="${item.numero}" class="page-link"></span>
 			<a th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero-1})}" th:text="${item.numero}" class="page-link"></a>
 			
