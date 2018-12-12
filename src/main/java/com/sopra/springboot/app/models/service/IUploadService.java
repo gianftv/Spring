@@ -1,4 +1,4 @@
-package com.sopra.springboot.app.model.service;
+package com.sopra.springboot.app.models.service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,5 +13,12 @@ public interface IUploadService {
 	public String  copy(MultipartFile file) throws IOException;
 	
 	public boolean delete(String filename);
+	
+	/*METODOS CREADOS PARA PODER ELIMINAR Y CREAR UPLOADS CADA VEZ QUE SE CIERRA O ABRE ECLIPSE O SE
+	LEVANTA Y PARA EL SERVIDOR*/
+	
+	//public void deleteAll();
+	
+	//public void init() throws IOException;
 	
 }

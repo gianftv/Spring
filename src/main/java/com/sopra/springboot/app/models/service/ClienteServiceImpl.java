@@ -1,4 +1,4 @@
-package com.sopra.springboot.app.model.service;
+package com.sopra.springboot.app.models.service;
 
 import java.util.List;
 

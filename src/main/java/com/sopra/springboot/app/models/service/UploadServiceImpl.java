@@ -1,4 +1,4 @@
-package com.sopra.springboot.app.model.service;
+package com.sopra.springboot.app.models.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+//import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -82,4 +83,20 @@ public class UploadServiceImpl implements IUploadService {
 		return Paths.get(UPLOADS_FOLDER).resolve(filename).toAbsolutePath();
 		
 	}
+	/*METODOS CREADOS PARA PODER ELIMINAR Y CREAR UPLOADS CADA VEZ QUE SE CIERRA O ABRE ECLIPSE O SE
+	LEVANTA Y PARA EL SERVIDOR*/
+//	@Override
+//	public void deleteAll() {
+//		
+//		FileSystemUtils.deleteRecursively(Paths.get(UPLOADS_FOLDER).toFile());
+//		
+//		
+//	}
+//
+//	@Override
+//	public void init() throws IOException {
+//		
+//		Files.createDirectory(Paths.get(UPLOADS_FOLDER));
+//		
+//	}
 }
